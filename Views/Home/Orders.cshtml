@@ -1,0 +1,38 @@
+@model loginApp.Models.CustomerandOrderList;
+<div id="content" >
+                     
+<table  class="table table-dark table-hover">
+    <thead  >
+        <tr >
+          
+          
+           
+            <th scope="col">Order Id</th>
+             <th scope="col">Order Date</th>
+             <th scope="col">Required Date</th>
+            
+        </tr>
+    </thead>
+    <tbody >
+        
+        @foreach (var x in Model.Orders)
+        {
+        
+            <tr>
+                
+                <td style="vertical-align: middle">@x.Id</td>
+                <td style="vertical-align: middle">@x.OrderDate</td>
+                <td style="vertical-align: middle">@x.RequiredDate</td>
+                
+                
+               
+            </tr>
+        }
+        
+    </tbody>
+</table>
+</div>
+
+
+                               
+                      

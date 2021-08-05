@@ -1,0 +1,17 @@
+ 
+ <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Log Out</h2>
+              <center>
+              <p>Are you sure you want to log out?</p>
+              <button class="btn btn-primary" onclick="location.href='@Url.Action("Logout","Logout")'">Yes</button>
+              <button class="btn btn-light ml-5 border-dark" onclick="location.href='@Url.Action("dontLogout", "Logout")'">No</button>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

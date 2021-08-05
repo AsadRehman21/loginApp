@@ -1,0 +1,136 @@
+@model loginApp.Models.CustomerandOrderList;
+<div id="content" >
+                     
+<table  class="table table-dark table-hover">
+    <thead  >
+        <tr >
+          
+            <th scope="col">Company Name</th>
+            <th scope="col">Contact Name</th>
+            <th scope="col">Contact Title</th>
+            <th scope="col">Address</th>
+            <th scope="col">City</th>
+            <th scope="col">Region</th>
+            <th scope="col">Postal Code</th>
+            <th scope="col">Country</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Fax</th>
+            <th scope="col">Order Id</th>
+             <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody >
+        
+        @foreach (var x in Model.Customers)
+        {
+            @foreach (var y in @x.Orders)
+        {
+            <tr>
+                
+                <td style="vertical-align: middle">@x.CompanyName</td>
+                <td style="vertical-align: middle">@x.ContactName</td>
+                <td style="vertical-align: middle">@x.ContactTitle</td>
+                <td style="vertical-align: middle">@x.Address</td>
+                <td style="vertical-align: middle">@x.City</td>
+                <td style="vertical-align: middle">@x.Region</td>
+                <td style="vertical-align: middle">@x.PostalCode</td>
+                <td style="vertical-align: middle">@x.Country</td>
+                <td style="vertical-align: middle">@x.Phone</td>
+                <td style="vertical-align: middle">@x.Fax</td>
+                <td style="vertical-align: middle">@y.Id</td>
+                <td>
+                    <button type="button" onclick="edit('@x.Id','@x.CompanyName','@x.ContactName','@x.ContactTitle','@x.Address','@x.City','@x.Region','@x.PostalCode','@x.Country','@x.Phone','@x.Fax')" class="btn btn-info "><i class="fas fa-user-edit"></i></button>
+                   
+                    <button type="button"  onclick="location.href='@Url.Action("Delete", "Home", new { id1 = @x.Id  })'" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        }
+        }
+    </tbody>
+</table>
+</div>
+
+
+                               
+                      
+<script>
+	
+	
+var edit=function(id,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax)
+{
+  
+  swal.fire({
+
+                html: ' <div class="form-row"><label style="float:left;">Company Name</label><input id="swal-input1" class="swal2-input" value="'+CompanyName+'"><label style="float:left;">Contact Name</label><input  id="swal-input2" class="swal2-input" value="'+ContactName+'"><label style="float:left;">Contact Title</label><input  value="'+ContactTitle+'" id="swal-input3" class="swal2-input" ><label style="float:left;">Address</label><input id="swal-input4" class="swal2-input" value="'+Address+'"><label style="float:left;">City</label><input id="swal-input5" class="swal2-input" value="'+City+'"><label style="float:left;">Region</label><input id="swal-input6" class="swal2-input" value="'+Region+'"><label style="float:left;" >Postal Code</label><input id="swal-input7" class="swal2-input" value="'+PostalCode+'"><label style="float:left;">Country</label><input id="swal-input8" class="swal2-input" value="'+Country+'"><label style="float:left;">Phone</label><input id="swal-input9" class="swal2-input" value="'+Phone+'"><label style="float:left;">Fax</label><input id="swal-input10" class="swal2-input" value="'+Fax+'"></div>', 
+                width: '600px',
+                showCancelButton: true,
+
+                 cancelButtonText: 'Cancel',
+                confirmButtonText: "Save",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   var  CompanyName = document.getElementById('swal-input1').value;
+                   var ContactName = document.getElementById('swal-input2').value;
+                   var ContactTitle = document.getElementById('swal-input3').value;
+                   var Address= document.getElementById('swal-input4').value;
+                   var City= document.getElementById('swal-input5').value;
+                   var Region= document.getElementById('swal-input6').value;
+                   var PostalCode= document.getElementById('swal-input7').value;
+                   var Country= document.getElementById('swal-input8').value;
+                   var Phone= document.getElementById('swal-input9').value;
+                   var Fax= document.getElementById('swal-input10').value;
+                 
+            
+                   var fd = new FormData();
+                   
+                   fd.append("CompanyName", CompanyName);
+                   fd.append("ContactName", ContactName);
+                   fd.append("ContactTitle",ContactTitle );
+                   fd.append("Address",Address );
+                   fd.append("City", City);
+                   fd.append("Region", Region);
+                   fd.append("PostalCode", PostalCode);
+                   fd.append("Country",Country );
+                   fd.append("Phone",Phone );
+                   fd.append("Fax", Fax);
+                   fd.append("Id", id);
+                    
+                    $.ajax({
+                        type: "POST",
+                        url: '/Home/Update',
+                        data: fd,
+                       
+                        contentType: false,
+                        processData: false,
+                        success: function(data) {
+                            
+                           
+                              swal.fire("Updated!", "Data updated successfully!", "success")
+                              .then((value) => {
+                                 location.reload()
+                                  });
+                               
+                        },
+
+                        error: function(xhr, error, status) {
+                            console.log(xhr, error, status);
+                        }
+                    });
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swal.fire(
+                    'Cancelled',
+                    'Your data file is safe :)',
+                    'error'
+                    )
+                }
+                })
+
+
+          
+}
+
+</script>
